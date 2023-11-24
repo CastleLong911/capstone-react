@@ -2,6 +2,9 @@ import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from 'react';
 import data from './data'; //백엔드 연결시 지우셈
+import { KAKAO_AUTH_URL } from './OAuth';
+import {Routes, Route, Link} from 'react-router-dom';
+import LoginHandeler from './loginHandler';
 
 function App() {
   let [dark, isDark] = useState(false);
@@ -27,6 +30,10 @@ function App() {
 
   return (
     <section className="bg-white dark: bg-zinc-900">
+
+      <Routes>
+        <Route path="/login/kakao" element={<LoginHandeler/>}></Route>
+      </Routes>
 
       <div className={"container px-6 py-10 mx-auto" + (open == true ? " blur" : "")}>
         <div id="menuToggle" className="cursor-pointer absolute top-0 right-0 m-5" onClick={toggleMenu}>
@@ -60,7 +67,7 @@ function App() {
               </svg>
             </button>
           </div>
-            <a href="#"><img src="https://cdn.imweb.me/upload/S20210304872ba49a108a8/89a68d1e3674a.png" alt="kakao Logo" className="w-8 h-8 mr-2 float-left"/><span className="flex-grow">카카오 로그인</span></a>
+            <a href={KAKAO_AUTH_URL}><img src="https://cdn.imweb.me/upload/S20210304872ba49a108a8/89a68d1e3674a.png" alt="kakao Logo" className="w-8 h-8 mr-2 float-left"/><span className="flex-grow">카카오 로그인</span></a>
             
           </div>
         </div>
@@ -135,6 +142,18 @@ function Card(props) {
 }
 
 function Modal(props) {
+  let [pros, setPros] = useState(); // 찬성 갯수
+  let [cons, setCons] = useState(); // 반대 갯수
+  let [chat_pro, setChat_pro] = useState([]); // 찬성채팅들
+  let [chat_con, setChat_con] = useState([]); // 반대채팅들
+  
+  useEffect(() => {
+    fetch("/api/information").then(res => res.json()).then(data => setDB(data)).catch((error) => {
+      console.log("에러 발생:", error); // 에러 메시지 출력
+    });;
+    console.log(db);
+  }, []);
+
   return (
     <div className="w-11/12 rounded-3xl p-10 flex flex-col justify-center fixed bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="left-10 justify-start">
