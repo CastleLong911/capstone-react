@@ -1,25 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from 'react';
+import data from './data'; //백엔드 연결시 지우셈
 
 function App() {
   let [dark, isDark] = useState(false);
   let [open, isOpen] = useState(false);
   let [modalData, setModalData] = useState({});
-  let [db, setDB] = useState([]);
+  let [db] = useState(data); //백엔드 연결시 지우셈
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
+  //백엔드 연결시 아래 쓰셈
+  /* 
+  let [db, setDB] = useState([]);
   useEffect(() => {
     fetch("/api/information").then(res => res.json()).then(data => setDB(data)).catch((error) => {
       console.log("에러 발생:", error); // 에러 메시지 출력
     });;
     console.log(db);
   }, []);
-
+*/
 
   return (
     <section className="bg-white dark: bg-zinc-900">
@@ -120,10 +124,10 @@ function Card(props) {
           </div>
         </div>
       </div>
-      <h1 className="w-56 h-6 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700 dark:text-white">
+      <h1 className="w-56 h-6 mt-4 bg-gray-200 rounded-lg dark:bg-zinc-800 dark:text-white">
         <span className="ml-3 font-bold">{props.date} - {date.getFullYear()}-{(date.getMonth() + 1).toString().padStart(2, '0')}-{date.getDate().toString().padStart(2, '0')}</span>
       </h1>
-      <p className="w-24 h-6 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700 text-center">
+      <p className="w-24 h-6 mt-4 bg-gray-200 rounded-lg dark:bg-zinc-800 text-center">
         <span className="font-bold text-sm dark:text-white">D{((Math.round((date.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))) * -1)}</span>
       </p>
     </div>
